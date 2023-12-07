@@ -23,3 +23,14 @@ app.listen(3000, ()=>{
 //Adding api routes khudse banaya hai yeh /api/user aur /api/auth
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+
+app.use((err,req,res,next) => {
+    const statusCode = err.statusCode || 500; //if no status code then send 500 internal server error
+    const message = err.message || 'internal server error';
+    return res.status( statusCode).json({
+        success: false,
+        message,// error : message,
+        statusCode,// statusCode: statusCode,
+
+    })
+})
